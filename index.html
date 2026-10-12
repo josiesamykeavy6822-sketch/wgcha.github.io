@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>潍坊工程职业学院策划案检测</title>
+<style>
+  :root {
+    --bg: #F3F4F6;
+    --card: #FFFFFF;
+    --ink: #1F2329;
+    --ink-soft: #6B7280;
+    --line: #E5E7EB;
+    --line-strong: #D1D5DB;
+    --red: #C62828;
+    --red-soft: #FDECEA;
+    --green: #15803D;
+    --green-soft: #E9F6EE;
+    --amber: #E8A100;
+    --amber-ink: #A16207;
+    --amber-soft: #FFF4D6;
+    --serif: "STZhongsong", "华文中宋", "SimSun", "Songti SC", serif;
+    --sans: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.65;
+    min-width: 960px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 40px 36px 72px; }
+
+  /* ===== 头部 ===== */
+  header { display: flex; align-items: center; gap: 18px; margin-bottom: 30px; }
+  .seal {
+    flex: none;
+    width: 46px; height: 46px;
+    border: 2px solid var(--red);
+    color: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    background: var(--card);
+  }
+  .head-text h1 {
+    font-family: var(--serif);
+    font-size: 26px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .head-text p { color: var(--ink-soft); font-size: 13.5px; margin-top: 5px; }
+  .head-meta { margin-left: auto; text-align: right; color: var(--ink-soft); font-size: 12px; line-height: 1.9; }
+  .head-meta .std-tag { display: inline-block; border: 1px solid var(--line-strong); padding: 1px 12px; border-radius: 999px; background: var(--card); }
+
+  /* ===== 分区卡片 ===== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  }
+  .card-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-bottom: 16px;
+  }
+  .card-title .no {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--red-soft); color: var(--red);
+    border-radius: 6px;
+    font-size: 12px; font-family: var(--sans);
+  }
+
+  /* ===== 标准列表 ===== */
+  .std-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+  .std-item { display: flex; gap: 10px; align-items: baseline; font-size: 13px; }
+  .std-item .dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); transform: translateY(-2px); }
+  .std-item b { font-weight: 600; }
+  .std-item .rule { color: var(--ink-soft); }
+  .std-note { margin-top: 14px; font-size: 12px; color: var(--ink-soft); border-top: 1px dashed var(--line-strong); padding-top: 12px; }
+
+  /* ===== 上传区 ===== */
+  .drop {
+    border: 2px dashed var(--line-strong);
+    border-radius: 12px;
+    padding: 46px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    background: #FAFBFC;
+  }
+  .drop:hover, .drop.drag { border-color: var(--red); background: var(--red-soft); }
+  .drop .upload-ic { margin-bottom: 12px; color: var(--ink-soft); }
+  .drop .main { font-size: 15px; font-weight: 600; }
+  .drop .sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 5px; }
+  .drop input[type=file] { display: none; }
+  .file-chip {
+    display: none;
+    align-items: center; gap: 10px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  .file-chip .fname { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 420px; }
+  .file-chip .fsize { color: var(--ink-soft); font-size: 12px; }
+  .file-chip .restart { margin-left: auto; color: var(--red); cursor: pointer; font-size: 13px; }
+  .parse-state { display: none; align-items: center; gap: 10px; margin-top: 16px; font-size: 14px; color: var(--ink-soft); }
+  .spin {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--line); border-top-color: var(--red);
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== 结果区 ===== */
+  .result { display: none; }
+  .stat-bar { display: flex; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .stat {
+    flex: 1; min-width: 150px;
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px;
+    background: var(--card);
+  }
+  .stat .num { font-size: 28px; font-weight: 700; font-family: var(--serif); letter-spacing: 0.5px; }
+  .stat .lbl { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .stat.err .num { color: var(--red); }
+  .stat.pass .num { color: var(--green); }
+  .stat.hint .num { color: var(--amber-ink); }
+  .cat-chips { display: none; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .chip {
+    font-size: 12px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: #F2F3F5;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .chip b { color: var(--red); }
+  .hint-list { display: none; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .hint-head {
+    font-size: 13px; font-weight: 600; color: var(--amber-ink);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .issue.hint {
+    border-left-color: var(--amber);
+    background: var(--amber-soft);
+  }
+  .issue.hint .idx { background: var(--amber); color: #FFFFFF; }
+  .issue .kv .v-manual { color: var(--amber-ink); font-weight: 700; }
+  .chip.warn b { color: var(--amber-ink); }
+  .summary-ok {
+    display: none;
+    align-items: center; gap: 12px;
+    padding: 16px 20px;
+    background: var(--green-soft);
+    border: 1px solid #BFE0C8;
+    border-radius: 10px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .file-check { display: none; margin: 14px 0; }
+  .file-check-row {
+    display: flex; gap: 12px;
+    align-items: flex-start;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  .file-check-row svg { flex: none; margin-top: 2px; }
+  .file-check-row.ok {
+    background: var(--green-soft);
+    border: 1px solid #BFE0C8;
+    color: var(--green);
+  }
+  .file-check-row.warn {
+    background: var(--amber-soft);
+    border: 1px solid #EACD5F;
+    color: var(--amber-ink);
+  }
+  .file-check-row.warn svg { color: var(--amber); }
+  .fc-body b { display: block; margin-bottom: 4px; font-size: 14px; }
+  .fc-detail { color: #57606A; line-height: 1.6; word-break: break-all; }
+  .fc-fix { margin-top: 6px; color: var(--amber-ink); line-height: 1.6; word-break: break-all; }
+  .issue-list { display: flex; flex-direction: column; gap: 10px; }
+  .issue {
+    display: flex; gap: 14px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--red);
+    border-radius: 10px;
+    padding: 14px 18px;
+    background: var(--card);
+  }
+  .issue .idx {
+    flex: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--red-soft);
+    color: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .issue .body { flex: 1; min-width: 0; }
+  .issue .where { font-size: 12px; color: var(--ink-soft); margin-bottom: 3px; }
+  .issue .where b { color: var(--ink); font-weight: 600; }
+  .issue .quote { font-size: 13.5px; margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .issue .kv { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; }
+  .issue .kv .k { color: var(--ink-soft); }
+  .issue .kv .v-expect { color: var(--green); font-weight: 600; }
+  .issue .kv .v-actual { color: var(--red); font-weight: 600; }
+  .issue .fix { margin-top: 8px; font-size: 12.5px; color: var(--amber-ink); background: var(--amber-soft); border-radius: 6px; padding: 4px 10px; display: inline-block; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #F2F3F5;
+    color: var(--ink-soft);
+    margin-left: 8px;
+    vertical-align: 1px;
+  }
+  .empty-result { text-align: center; color: var(--ink-soft); padding: 30px 0; font-size: 14px; }
+
+  /* ===== 整页拖入遮罩 ===== */
+  .drag-mask {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(243, 244, 246, 0.94);
+    border: 3px dashed var(--red);
+    z-index: 99;
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px;
+    color: var(--red);
+    font-family: var(--serif);
+    font-size: 22px;
+  }
+  .drag-mask .sub { font-size: 14px; color: var(--ink-soft); font-family: var(--sans); }
+
+  footer { text-align: center; color: #9AA1AB; font-size: 12px; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== 头部 ===== -->
+  <header>
+    <div class="seal">格式审</div>
+    <div class="head-text">
+      <h1>潍坊工程职业学院策划案检测</h1>
+      <p>对照《社团工作部关于策划案审核标准2026最新版》格式标准，自动核查上传策划案的字体、字号、缩进、行距与页面设置</p>
+    </div>
+    <div class="head-meta">
+      <span class="std-tag">标准来源：辩论赛活动策划案</span><br>
+      <span class="std-tag">支持格式：.docx</span>
+    </div>
+  </header>
+
+  <!-- ===== 一、格式标准 ===== -->
+  <section class="card">
+    <div class="card-title"><span class="no">一</span>格式标准（以参考策划案为准）</div>
+    <div class="std-grid">
+      <div class="std-item"><span class="dot"></span><span><b>页面：</b><span class="rule">A4 纸，页边距上下左右均为 2.5cm</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>表格内文字：</b><span class="rule">仿宋 三号（逐字检测，黑体等一律报错）</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>大标题：</b><span class="rule">方正小标宋简体 二号，居中</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>一级标题（一、…）：</b><span class="rule">黑体 三号，编号用顿号「、」</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>二级标题（（一）…）：</b><span class="rule">楷体 三号，首行缩进 2 字符</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>正文：</b><span class="rule">仿宋 三号，行距固定值 28 磅</span></span></div>
+      <div class="std-item"><span class="dot"></span><span><b>落款 / 附件：</b><span class="rule">落款仿宋 三号；附件标题（附件一：…）黑体 三号、全角冒号，正文引用（仿宋+缩进2字符）用仿宋 三号；附件内小标题（评分细则等）黑体 三号、内容仿宋</span></span></div>
+    </div>
+    <div class="std-note">说明：标准以用 WPS 打开参考策划案《活动策划案》时所见画面为准（字体、字号、行距、页面设置逐项核对）。缩进以 WPS 阅读显示为准：用段落格式实现的首行缩进 2 字符为达标；用手动空格实现、视觉同样为 2 字符缩进的，视为符合标准并作黄色提示，建议改为段落格式缩进。文件可在页面任意位置拖入，仅在本机浏览器内解析，不上传服务器。</div>
+  </section>
+
+  <!-- ===== 二、上传策划案 ===== -->
+  <section class="card">
+    <div class="card-title"><span class="no">二</span>上传策划案</div>
+    <div class="drop" id="drop">
+      <div class="upload-ic">
+        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 16V4"/>
+          <path d="M6 10l6-6 6 6"/>
+          <path d="M4 20h16"/>
+        </svg>
+      </div>
+      <div class="main">点击选择或拖入 Word 策划案（.docx）</div>
+      <div class="sub">文件仅在本机浏览器内解析，不会上传到服务器</div>
+      <input type="file" id="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+    </div>
+    <div class="file-chip" id="fileChip">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <path d="M14 2v6h6"/>
+      </svg>
+      <span class="fname" id="fname"></span>
+      <span class="fsize" id="fsize"></span>
+      <span class="restart" id="restart">重新选择</span>
+    </div>
+    <div class="parse-state" id="parseState"><span class="spin"></span><span id="parseText">正在解析文档格式…</span></div>
+  </section>
+
+  <!-- ===== 三、检测结果 ===== -->
+  <section class="card result" id="resultCard">
+    <div class="card-title"><span class="no">三</span>检测结果</div>
+    <div class="stat-bar">
+      <div class="stat err"><div class="num" id="statErr">0</div><div class="lbl">格式问题</div></div>
+      <div class="stat pass"><div class="num" id="statPass">0</div><div class="lbl">检查通过项</div></div>
+      <div class="stat hint"><div class="num" id="statHint">0</div><div class="lbl">缩进提示（手动空格）</div></div>
+      <div class="stat"><div class="num" id="statPara">0</div><div class="lbl">正文段落（含标题）</div></div>
+    </div>
+    <div class="file-check" id="fileCheck"></div>
+    <div class="cat-chips" id="catChips"></div>
+    <div class="hint-list" id="hintList">
+      <div class="hint-head">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 9v4"/><path d="M12 17h.01"/>
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+        以下段落缩进为手动空格实现，视觉上符合 2 字符缩进，建议改为段落格式缩进
+      </div>
+    </div>
+    <div class="summary-ok" id="summaryOk">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      全部格式检查通过，与参考策划案格式一致
+    </div>
+    <div class="issue-list" id="issueList"></div>
+  </section>
+
+  <footer>潍坊工程职业学院策划案格式检测工具 · 检测结果供修改参考</footer>
+</div>
+
+<!-- 整页拖入遮罩 -->
+<div class="drag-mask" id="dragMask">
+  <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 16V4"/>
+    <path d="M6 10l6-6 6 6"/>
+    <path d="M4 20h16"/>
+  </svg>
+  松开即可开始检测
+  <div class="sub">支持 .docx 文件拖入</div>
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+ * 常量与工具
+ * ============================================================ */
+var NS_W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+
+var TPIS = 1440;            /* 1 英寸 = 1440 twips */
+function twip2pt(v) { return Math.round((v / 20) * 10) / 10; }
+function twip2cm(v) { return Math.round((v / TPIS * 2.54) * 10) / 10; }
+
+/* 按 WPS 显示习惯：字号用中文号（磅值仅作兜底），缩进用字符，行距用磅 */
+var CN_SIZES = {
+  42: "初号", 36: "小初", 26: "一号", 24: "小一", 22: "二号", 18: "小二",
+  16: "三号", 15: "小三", 14: "四号", 12: "小四", 10.5: "五号", 9: "小五",
+  7.5: "六号", 6.5: "小六", 5.5: "七号", 5: "八号"
+};
+function pt2cn(v) {
+  if (v === null || v === undefined) return "未设置";
+  var r = CN_SIZES[v];
+  return r ? r : v + " 磅";
+}
+function indent2cn(tw) {
+  if (tw === null || tw === undefined) return "无首行缩进";
+  var chars = Math.round(tw / 320 * 10) / 10;
+  return chars + " 字符";
+}
+function line2cn(tw, rule) {
+  if (tw === null || tw === undefined) return "未设置行距";
+  if (rule === "auto") return (Math.round(tw / 240 * 100) / 100) + " 倍行距";
+  return "固定值 " + twip2pt(tw) + " 磅";
+}
+
+/* 统计段落开头手动空格的视觉宽度（字符数），覆盖 WPS/Word 常见空格字符：
+   全角空格 U+3000、不换行空格 U+00A0、表意空格 U+2003 按 1 字符；
+   半角空格 U+0020、En 空格 U+2002 按 0.5 字符；
+   Tab（WPS 默认制表位 2 字符）按 2 字符 */
+function leadingSpaceWidth(t) {
+  var w = 0, i = 0;
+  while (i < t.length) {
+    var c = t.charAt(i);
+    if (c === "\u3000" || c === "\u00A0" || c === "\u2003") { w += 1; i++; }
+    else if (c === "\u2002" || c === " ") { w += 0.5; i++; }
+    else if (c === "\t") { w += 2; i++; }
+    else break;
+  }
+  return w;
+}
+/* 视觉缩进字符数：优先按磅值（firstLine/left twips）折算，缺失时用字符单位 */
+function visualIndentChars(p) {
+  if (p.indentTw !== null) return p.indentTw / 320;
+  if (p.indentChars !== null && p.indentChars !== undefined) return p.indentChars;
+  return null;
+}
+function visualLeftChars(p) {
+  if (p.leftTw !== null) return p.leftTw / 320;
+  if (p.leftChars !== null && p.leftChars !== undefined) return p.leftChars;
+  return null;
+}
+/* 视觉宽度是否接近 2 字符（1.4～2.6） */
+function isManual2CharIndent(t) {
+  var w = leadingSpaceWidth(t);
+  return w >= 1.4 && w <= 2.6;
+}
+
+/* 标准值（来自参考策划案实测） */
+var STD = {
+  pageW: 11906, pageH: 16838,           /* A4 twips */
+  pageMar: 1417,                        /* 2.5cm twips */
+  hdrFtr: 1417,                         /* 页眉/页脚距离 2.5cm twips */
+  title:  { font: "小标宋", size: 22, align: "center" },
+  h1:     { font: "黑体", size: 16 },
+  h2:     { font: "楷体", size: 16, indentTw: 640 },
+  body:   { font: "仿宋", size: 16, lineTw: 560, lineRule: ["exact", "atLeast"] },
+  sign:   { font: "仿宋", size: 16 },
+  attach: { font: "仿宋", size: 16 },
+  subhead:{ font: "黑体", size: 16 }
+};
+
+function fontMatch(actual, expect) {
+  if (!actual) return false;
+  var a = String(actual).replace(/\s+/g, "");
+  var e = String(expect).replace(/\s+/g, "");
+  return a.indexOf(e) >= 0;
+}
+function near(v, t, tol) { return Math.abs(v - t) <= tol; }
+
+/* ============================================================
+ * ZIP 解析（原生实现，无外部依赖）
+ * ============================================================ */
+function bytesToAscii(u8, start, len) {
+  var s = "";
+  for (var i = 0; i < len; i++) s += String.fromCharCode(u8[start + i]);
+  return s;
+}
+function readU16(u8, off) { return u8[off] | (u8[off + 1] << 8); }
+function readU32(u8, off) { return (u8[off] | (u8[off + 1] << 8) | (u8[off + 2] << 16) | (u8[off + 3] << 24)) >>> 0; }
+function readU64(u8, off) {
+  var lo = readU32(u8, off);
+  var hi = readU32(u8, off + 4);
+  return hi * 4294967296 + lo;
+}
+
+function findEOCD(u8) {
+  /* EOCD 签名 0x06054b50，从末尾向前找（覆盖最长 65535 字节 ZIP 注释） */
+  var min = Math.max(0, u8.length - 22 - 65535);
+  for (var i = u8.length - 22; i >= min; i--) {
+    if (u8[i] === 0x50 && u8[i + 1] === 0x4b && u8[i + 2] === 0x05 && u8[i + 3] === 0x06) return i;
+  }
+  return -1;
+}
+
+function readCentralEntries(u8, cdOff, cdSize) {
+  var entries = [];
+  var p = cdOff;
+  var end = cdOff + cdSize;
+  while (p + 46 <= end) {
+    if (readU32(u8, p) !== 0x02014b50) break;
+    var method = readU16(u8, p + 10);
+    var compSize = readU32(u8, p + 20);
+    var nameLen = readU16(u8, p + 28);
+    var extraLen = readU16(u8, p + 30);
+    var commentLen = readU16(u8, p + 32);
+    var localOff = readU32(u8, p + 42);
+    var name = bytesToAscii(u8, p + 46, nameLen);
+    entries.push({ name: name, method: method, compSize: compSize, localOff: localOff });
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  return entries;
+}
+
+/* 本地条目取数：本地头 compSize 在流式写入（bit3 数据描述符）时可能为 0，
+   一律以中央目录记录的 compSize 为准（WPS / Office 常见写法） */
+function extractEntry(u8, entry) {
+  var p = entry.localOff;
+  if (readU32(u8, p) !== 0x04034b50) return null;
+  var method = entry.method;
+  var compSize = entry.compSize;
+  var nameLen = readU16(u8, p + 26);
+  var extraLen = readU16(u8, p + 28);
+  var dataStart = p + 30 + nameLen + extraLen;
+  if (dataStart + compSize > u8.length) return null;
+  var data = u8.subarray(dataStart, dataStart + compSize);
+  return { method: method, data: data, compSize: compSize };
+}
+
+async function inflateRaw(u8, label) {
+  if (typeof DecompressionStream === "undefined") {
+    throw new Error("当前浏览器不支持流式解压（DecompressionStream），请使用新版 Chrome / Edge");
+  }
+  try {
+    var blob = new Blob([u8]);
+    var ds = new DecompressionStream("deflate-raw");
+    var stream = blob.stream().pipeThrough(ds);
+    var buf = await new Response(stream).arrayBuffer();
+    return new Uint8Array(buf);
+  } catch (e) {
+    throw new Error("解压「" + (label || "文档内容") + "」失败，文件可能已损坏或使用了非常规压缩方式：" + (e && e.message ? e.message : String(e)));
+  }
+}
+
+async function readDocxXml(file) {
+  var buf = await file.arrayBuffer();
+  var u8 = new Uint8Array(buf);
+
+  /* 旧版 .doc（OLE2 复合文档）检测 */
+  if (u8.length >= 8 &&
+      u8[0] === 0xD0 && u8[1] === 0xCF && u8[2] === 0x11 && u8[3] === 0xE0 &&
+      u8[4] === 0xA1 && u8[5] === 0xB1 && u8[6] === 0x1A && u8[7] === 0xE1) {
+    throw new Error("检测到该文件是旧版 .doc（Word 97-2003）格式，请先用 WPS / Word 打开并另存为 .docx 后再检测");
+  }
+
+  var eocd = findEOCD(u8);
+  if (eocd < 0) throw new Error("无法解析文件：不是有效的 docx（ZIP）文件，文件可能已损坏");
+
+  var cdSize = readU32(u8, eocd + 12);
+  var cdOff = readU32(u8, eocd + 16);
+  var totalEntries = readU16(u8, eocd + 10);
+
+  /* ZIP64：中央目录偏移/大小/条目数达到上限时，真实值在 ZIP64 EOCD 中 */
+  if (cdOff === 0xFFFFFFFF || cdSize === 0xFFFFFFFF || totalEntries === 0xFFFF) {
+    var loc = eocd - 20;
+    if (loc >= 0 && readU32(u8, loc) === 0x07064b50) {
+      var z64 = readU64(u8, loc + 8);
+      if (z64 + 56 <= u8.length && readU32(u8, z64) === 0x06064b50) {
+        cdSize = readU64(u8, z64 + 32);
+        cdOff = readU64(u8, z64 + 48);
+      }
+    }
+  }
+  if (cdOff + cdSize > u8.length) {
+    throw new Error("docx 文件结构异常（中央目录越界），文件可能已损坏");
+  }
+
+  var entries = readCentralEntries(u8, cdOff, cdSize);
+  var target = null;
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].name === "word/document.xml") { target = entries[i]; break; }
+  }
+  if (!target) {
+    var sample = entries.slice(0, 8).map(function (e) { return e.name; }).join("、");
+    throw new Error("未找到 word/document.xml，可能不是 Word 文档（ZIP 内包含：" + (sample || "空") + "）");
+  }
+  var raw = extractEntry(u8, target);
+  if (!raw) throw new Error("word/document.xml 数据区异常，文件可能已损坏");
+  var bytes;
+  if (raw.method === 0) bytes = raw.data;
+  else if (raw.method === 8) bytes = await inflateRaw(raw.data, "word/document.xml");
+  else if (raw.method === 99) throw new Error("该 docx 已加密（AES 加密），请先在 WPS / Word 中取消密码保护后再检测");
+  else throw new Error("不支持的压缩方式（method=" + raw.method + "），请用 WPS / Word 重新另存为 .docx 后再检测");
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
+/* ============================================================
+ * document.xml 解析：提取段落与页面设置
+ * ============================================================ */
+function qw(el, tag) { return el.getElementsByTagNameNS(NS_W, tag); }
+function firstQw(el, tag) {
+  var nodes = qw(el, tag);
+  return nodes.length ? nodes[0] : null;
+}
+
+function getRunFormat(runEl) {
+  var rPr = firstQw(runEl, "rPr");
+  var fmt = { font: null, size: null, bold: false };
+  if (!rPr) return fmt;
+  var rFonts = firstQw(rPr, "rFonts");
+  if (rFonts) {
+    /* 中文字体以 eastAsia 为准；缺失时视为未设置，不拿 ascii（西文字体）冒充 */
+    fmt.font = rFonts.getAttributeNS(NS_W, "eastAsia") || null;
+  }
+  var sz = firstQw(rPr, "sz");
+  if (sz) {
+    var v = parseInt(sz.getAttributeNS(NS_W, "val"), 10);
+    if (!isNaN(v)) fmt.size = v / 2;
+  }
+  if (firstQw(rPr, "b")) fmt.bold = true;
+  return fmt;
+}
+
+function getParaText(pEl) {
+  var parts = [];
+  (function walk(node) {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var n = node.childNodes[i];
+      if (n.nodeType !== 1) continue;
+      var ln = n.localName;
+      if (ln === "t") parts.push(n.textContent || "");
+      else if (ln === "tab") parts.push("\t");       /* WPS 中按 Tab 键缩进 */
+      else if (ln === "br") parts.push("\n");
+      else walk(n);
+    }
+  })(pEl);
+  return parts.join("");
+}
+
+function getRunText(runEl) {
+  var parts = [];
+  (function walk(node) {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var n = node.childNodes[i];
+      if (n.nodeType !== 1) continue;
+      if (n.localName === "t") parts.push(n.textContent || "");
+      else if (n.localName === "tab") parts.push("\t");
+      else walk(n);
+    }
+  })(runEl);
+  return parts.join("");
+}
+
+/* 装饰性 run：空格、括号、序号字符（“（”“一”“）”“（一）”等），不参与字体判定 */
+function isDecoRun(t) {
+  var s = t.replace(/\s/g, "");
+  if (!s) return true;
+  if (/^[（(）)]+$/.test(s)) return true;
+  if (/^[（(]?[一二三四五六七八九十百]+[）)]?$/.test(s)) return true;
+  return false;
+}
+
+function parsePara(pEl, inTable) {
+  var text = getParaText(pEl);
+  var fmt = { font: null, size: null, bold: false };
+  var runEls = qw(pEl, "r");
+  var runs = [];
+  /* 段落字体取首个非装饰 run 的中文字体（跳过序号、空格等装饰 run） */
+  var mainSet = false;
+  for (var i = 0; i < runEls.length; i++) {
+    var rf = getRunFormat(runEls[i]);
+    var rt = getRunText(runEls[i]);
+    runs.push({ t: rt, f: rf.font, s: rf.size, bold: rf.bold });
+    if (!mainSet && !isDecoRun(rt) && rf.font) {
+      fmt.font = rf.font;
+      fmt.size = rf.size;
+      mainSet = true;
+    }
+    if (rf.bold) fmt.bold = true;
+  }
+  /* 全是装饰 run 或均无中文字体时，回退到文本最长的 run */
+  if (!mainSet) {
+    var maxLen = -1;
+    for (var j = 0; j < runs.length; j++) {
+      if (runs[j].t.length > maxLen) {
+        maxLen = runs[j].t.length;
+        fmt.font = runs[j].f;
+        fmt.size = runs[j].s;
+      }
+    }
+  }
+  var pPr = firstQw(pEl, "pPr");
+  var align = null, indentTw = null, indentChars = null, leftTw = null, leftChars = null, lineTw = null, lineRule = null;
+  if (pPr) {
+    var jc = firstQw(pPr, "jc");
+    if (jc) align = jc.getAttributeNS(NS_W, "val");
+    var ind = firstQw(pPr, "ind");
+    if (ind) {
+      var fl = ind.getAttributeNS(NS_W, "firstLine");
+      if (fl !== null) indentTw = parseInt(fl, 10);
+      var flc = ind.getAttributeNS(NS_W, "firstLineChars");
+      if (flc !== null) indentChars = parseInt(flc, 10) / 100;
+      var lf = ind.getAttributeNS(NS_W, "left");
+      if (lf !== null) leftTw = parseInt(lf, 10);
+      var lc = ind.getAttributeNS(NS_W, "leftChars");
+      if (lc !== null) leftChars = parseInt(lc, 10) / 100;
+    }
+    var sp = firstQw(pPr, "spacing");
+    if (sp) {
+      var ln = sp.getAttributeNS(NS_W, "line");
+      if (ln !== null) {
+        lineTw = parseInt(ln, 10);
+        lineRule = sp.getAttributeNS(NS_W, "lineRule");
+      }
+    }
+  }
+  return { text: text, fmt: fmt, runs: runs, inTable: !!inTable, align: align, indentTw: indentTw, indentChars: indentChars, leftTw: leftTw, leftChars: leftChars, lineTw: lineTw, lineRule: lineRule };
+}
+
+function parseSectPr(docEl) {
+  var sect = null;
+  var body = firstQw(docEl, "body");
+  if (body) sect = firstQw(body, "sectPr");
+  if (!sect) {
+    var all = qw(docEl, "sectPr");
+    if (all.length) sect = all[all.length - 1];
+  }
+  if (!sect) return null;
+  var pgSz = firstQw(sect, "pgSz");
+  var pgMar = firstQw(sect, "pgMar");
+  var info = {};
+  if (pgSz) {
+    info.pageW = parseInt(pgSz.getAttributeNS(NS_W, "w"), 10);
+    info.pageH = parseInt(pgSz.getAttributeNS(NS_W, "h"), 10);
+  }
+  if (pgMar) {
+    info.top = parseInt(pgMar.getAttributeNS(NS_W, "top"), 10);
+    info.bottom = parseInt(pgMar.getAttributeNS(NS_W, "bottom"), 10);
+    info.left = parseInt(pgMar.getAttributeNS(NS_W, "left"), 10);
+    info.right = parseInt(pgMar.getAttributeNS(NS_W, "right"), 10);
+    var hd = pgMar.getAttributeNS(NS_W, "header");
+    var ft = pgMar.getAttributeNS(NS_W, "footer");
+    if (hd !== null) info.header = parseInt(hd, 10);
+    if (ft !== null) info.footer = parseInt(ft, 10);
+  }
+  return info;
+}
+
+/* 提取正文主体全部段落：含表格内段落（标记 inTable），保持文档顺序 */
+function parseBodyParas(docEl) {
+  var paras = [];
+  var body = firstQw(docEl, "body");
+  if (!body) return paras;
+  (function walk(node, inTable) {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var n = node.childNodes[i];
+      if (n.nodeType !== 1) continue;
+      if (n.localName === "p") paras.push(parsePara(n, inTable));
+      else if (n.localName === "tbl") walk(n, true);
+      else walk(n, inTable);   /* tr / tc / sdt 等容器继续递归 */
+    }
+  })(body, false);
+  return paras;
+}
+
+/* ============================================================
+ * 段落分类与检测规则
+ * ============================================================ */
+function classify(text, para) {
+  var t = text.trim();
+  if (!t) return "empty";
+  if (para.inTable) return "table";
+  if (/^[一二三四五六七八九十百]+[、.]/.test(t)) return "h1";
+  if (/^[（(][一二三四五六七八九十百]+[）)]/.test(t)) {
+    /* 一段内并列多个序号（“（三）…（四）…”）＝正文叙述，按正文（仿宋）判定 */
+    var multi = (t.match(/[（(][一二三四五六七八九十百]+[）)]/g) || []).length >= 2;
+    if (multi) return "body";
+    /* 楷体样式的（一）（二）段＝二级标题（楷体判定）；非楷体且仅一句话（句号结尾或较长）→ 按正文（仿宋）判定 */
+    if (fontMatch(para.fmt.font, "楷体")) return "h2";
+    if (/[。！？]$/.test(t) || t.length > 16) return "body";
+    return "h2";
+  }
+  if (/^附件[一二三四五六七八九十百]+[:：]/.test(t)) {
+    /* 单独成行的“附件一：”是表格标题（黑体16），带文字说明的“附件一：比赛规则”是正文引用（仿宋16） */
+    return t.length <= 6 ? "subhead" : "attach";
+  }
+  /* 大标题：字号≥20 且居中，或以年份开头且字号≥18 */
+  if (para.fmt.size >= 20 && para.align === "center") return "title";
+  if (/^20\d{2}年/.test(t) && para.fmt.size >= 18) return "title";
+  /* 楷体 16pt 短段（如“准备阶段”）按二级标题处理 */
+  if (para.fmt.size && para.fmt.size <= 20 && para.fmt.size >= 14 &&
+      fontMatch(para.fmt.font, "楷体") && t.length <= 20) return "h2";
+  /* 黑体 16pt 短段（附件内小标题，如“比赛规则”） */
+  if (para.fmt.size && para.fmt.size <= 20 && para.fmt.size >= 14 &&
+      fontMatch(para.fmt.font, "黑体") && t.length <= 20) return "subhead";
+  /* 落款：单位名或日期 */
+  if (/委员会|学生会|社团|宣传部|新媒体中心|工作$/.test(t) && t.length <= 30) return "sign";
+  if (/^\s*\d{4}年\s*\d{1,2}\s*月/.test(t)) return "sign";
+  return "body";
+}
+
+function pushIssue(list, pos, quote, cat, expect, actual, fix) {
+  list.push({ pos: pos, quote: quote, cat: cat, expect: expect, actual: actual, fix: fix });
+}
+
+/* 缩进统一检查（模板正文/二级标题以首行缩进 2 字符为基准）：
+   视觉 2 字符（格式缩进/字符缩进/手动空格/左缩进）均达标；
+   allowZero=true 时（正文）允许完全无缩进（模板正文存在无缩进段落），
+   但缩进宽度明显不符（如 4 字符、8 字符）必须报出。
+   返回 "pass" / "hint" / "issue" */
+function checkIndent(p, pos, quote, issues, hints, fixText, allowZero) {
+  var vInd = visualIndentChars(p);
+  var vLeft = visualLeftChars(p);
+  if (vInd !== null && vInd >= 1.4 && vInd <= 2.6) return "pass";
+  /* 格式缩进已显式设置但宽度不符（<1.4 或 >2.6，如 4 字符、8 字符）→ 报宽度错误，优先于手动空格提示；
+     但首行缩进为 0 且整体左缩进约 2 字符（手动实现）时，落到下方左缩进提示 */
+  if (vInd !== null && (vInd < 1.4 || vInd > 2.6) &&
+      !(vInd <= 0.4 && vLeft !== null && vLeft >= 1.4 && vLeft <= 2.6)) {
+    if (allowZero && vInd <= 0.4) return "pass";
+    pushIssue(issues, pos, quote, "缩进", "首行缩进 2 字符",
+      indent2cn(p.indentTw),
+      fixText || "段落首行缩进 2 字符");
+    return "issue";
+  }
+  if (vLeft !== null && vLeft >= 1.4 && vLeft <= 2.6 && p.text.trim().length <= 30) {
+    hints.push({
+      pos: pos, quote: quote, cat: "缩进",
+      expect: "首行缩进 2 字符",
+      actual: "用户手动缩进（视觉 2 字符）",
+      fix: "建议改为段落格式缩进（首行缩进 2 字符），不要用手动空格或左缩进"
+    });
+    return "hint";
+  }
+  if (isManual2CharIndent(p.text)) {
+    hints.push({
+      pos: pos, quote: quote, cat: "缩进",
+      expect: "首行缩进 2 字符",
+      actual: "用户手动缩进（视觉 2 字符）",
+      fix: "建议改为段落格式缩进（首行缩进 2 字符），不要用手动空格"
+    });
+    return "hint";
+  }
+  if (allowZero) return "pass";
+  pushIssue(issues, pos, quote, "缩进", "首行缩进 2 字符",
+    indent2cn(p.indentTw),
+    fixText || "段落首行缩进 2 字符");
+  return "issue";
+}
+
+function runChecks(paras, sectInfo, fileName) {
+  var issues = [];
+  var hints = [];
+  var passCount = 0;
+  var seq = 0;
+
+  /* 文件名与主标题（策划案名称）一致性检测（独立项，不列入格式错误统计） */
+  var fileNameCheck = null;
+  if (fileName) {
+    /* 主标题：大标题可能跨两行（第一行年份+名称、第二行“活动策划案”），拼接连续的大字号段 */
+    var titleText = "";
+    var inTitle = false;
+    for (var ti = 0; ti < paras.length; ti++) {
+      var tc = classify(paras[ti].text, paras[ti]);
+      if (!inTitle && tc === "title") { inTitle = true; titleText += paras[ti].text.trim(); continue; }
+      if (inTitle) {
+        if (!paras[ti].text.trim()) continue;              /* 空段跳过不打断 */
+        if (paras[ti].fmt.size >= 18 &&
+            tc !== "h1" && tc !== "h2" && tc !== "subhead" && tc !== "attach" && tc !== "sign" && tc !== "table") {
+          titleText += paras[ti].text.trim();              /* 大标题第二行（字号同级别） */
+          continue;
+        }
+        break;
+      }
+    }
+    if (titleText) {
+      var fnNorm = String(fileName).replace(/\.(docx|doc)$/i, "")
+        .replace(/[（(]\d+[）)]/g, "")          /* 去掉 (1)(2) 等副本后缀 */
+        .replace(/_?\d{8,}$/, "")              /* 去掉 _20261010215007 等时间戳后缀 */
+        .replace(/[()]/g, "")                  /* 去掉孤立半角括号 */
+        .replace(/\s+/g, "")
+        .replace(/[“”"‘’']/g, "");
+      var ttNorm = String(titleText).replace(/\s+/g, "").replace(/[“”"‘’']/g, "");
+      fileNameCheck = {
+        ok: fnNorm === ttNorm,
+        fileName: String(fileName).replace(/\.(docx|doc)$/i, "").trim(),
+        title: titleText,
+        fix: "将文件名改为与策划案主标题一致，例如「" + titleText + ".docx」"
+      };
+    }
+  }
+
+  /* 页面设置 */
+  if (sectInfo) {
+    var pageOk = true;
+    if (sectInfo.pageW && sectInfo.pageH) {
+      if (!near(sectInfo.pageW, STD.pageW, 50) || !near(sectInfo.pageH, STD.pageH, 50)) {
+        pushIssue(issues, "页面设置", "纸张大小", "页面", "A4（21.0×29.7cm）",
+          twip2cm(sectInfo.pageW) + "×" + twip2cm(sectInfo.pageH) + "cm",
+          "将页面纸张设置为 A4");
+        pageOk = false;
+      }
+    }
+    ["top", "bottom", "left", "right"].forEach(function (side) {
+      if (sectInfo[side] !== undefined && !near(sectInfo[side], STD.pageMar, 50)) {
+        pushIssue(issues, "页面设置", "页边距-" + side, "页面",
+          "2.5cm",
+          twip2cm(sectInfo[side]) + "cm",
+          "将" + (side === "top" ? "上" : side === "bottom" ? "下" : side === "left" ? "左" : "右") + "页边距设为 2.5cm");
+        pageOk = false;
+      }
+    });
+    if (pageOk) passCount++;
+  }
+
+  /* 段落检查 */
+  for (var i = 0; i < paras.length; i++) {
+    var p = paras[i];
+    var cls = classify(p.text, p);
+    if (cls === "empty") continue;
+    seq++;
+    var quote = p.text.trim().replace(/\s+/g, " ").slice(0, 40);
+    var pos = "第 " + seq + " 段";
+
+    var f = p.fmt.font ? String(p.fmt.font) : null;
+    var s = p.fmt.size;
+
+    if (cls === "title") {
+      if (!fontMatch(f, STD.title.font)) {
+        pushIssue(issues, pos, quote, "字体", "方正小标宋简体", f ? f : "未设置字体", "标题改为方正小标宋简体");
+      } else if (s !== null && !near(s, STD.title.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "二号", pt2cn(s), "标题字号改为二号");
+      } else { passCount++; }
+      if (p.align !== "center") {
+        pushIssue(issues, pos, quote, "对齐", "居中", p.align || "默认", "大标题居中对齐");
+      } else { passCount++; }
+    }
+    else if (cls === "h1") {
+      if (!fontMatch(f, STD.h1.font)) {
+        pushIssue(issues, pos, quote, "字体", "黑体", f ? f : "未设置字体", "一级标题改为黑体");
+      } else if (s !== null && !near(s, STD.h1.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "一级标题字号改为三号");
+      } else { passCount++; }
+      if (/^[一二三四五六七八九十百]+\./.test(p.text.trim())) {
+        hints.push({
+          pos: pos, quote: quote, cat: "标点",
+          expect: "「一、」顿号",
+          actual: "「一.」半角点",
+          fix: "一级标题编号建议改用顿号，如「一、活动目的」"
+        });
+      } else { passCount++; }
+    }
+    else if (cls === "h2") {
+      if (!fontMatch(f, STD.h2.font)) {
+        pushIssue(issues, pos, quote, "字体", "楷体", f ? f : "未设置字体", "二级标题改为楷体");
+      } else if (s !== null && !near(s, STD.h2.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "二级标题字号改为三号");
+      } else { passCount++; }
+      /* 缩进以 WPS 阅读显示为准：视觉 2 字符均达标（格式缩进 / 手动空格 / 左缩进） */
+      var indR = checkIndent(p, pos, quote, issues, hints, "二级标题首行缩进 2 字符");
+      if (indR === "pass") passCount++;
+    }
+    else if (cls === "attach") {
+      /* 附件段三类判定：
+         ① 正文引导句：一级标题下方的“附件X：xxx”提醒行，其后紧跟落款（右对齐行）→ 按正文（仿宋）判定
+         ② 正文引用：仿宋＋首行缩进 2 字符 → 正文引用（仿宋）
+         ③ 其余＝正式附件标题 → 黑体 */
+      var nxtP = (i + 1 < paras.length) ? paras[i + 1] : null;
+      var isGuide = nxtP !== null &&
+        (nxtP.align === "right" || nxtP.align === "end") &&
+        nxtP.text.trim().length > 0 && nxtP.text.trim().length <= 40;
+      var isRef = fontMatch(f, "仿宋") && p.indentTw !== null && near(p.indentTw, 640, 40);
+      var stdFont = (isGuide || isRef) ? "仿宋" : "黑体";
+      if (!fontMatch(f, stdFont)) {
+        pushIssue(issues, pos, quote, "字体", stdFont + "（" + (isRef ? "正文引用" : "附件标题") + "）", f ? f : "未设置字体", isRef ? "正文引用用仿宋 16pt" : "附件标题用黑体 16pt");
+      } else if (s !== null && !near(s, STD.attach.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "附件标题字号改为三号");
+      } else { passCount++; }
+      if (/^附件[一二三四五六七八九十百]+:/.test(p.text.trim())) {
+        hints.push({
+          pos: pos, quote: quote, cat: "标点",
+          expect: "全角冒号「附件一：」",
+          actual: "半角冒号「附件一:」",
+          fix: "附件标题建议使用全角冒号「附件一：」"
+        });
+      } else { passCount++; }
+    }
+    else if (cls === "subhead") {
+      if (!fontMatch(f, STD.subhead.font)) {
+        pushIssue(issues, pos, quote, "字体", "黑体", f ? f : "未设置字体", "小标题改为黑体");
+      } else if (s !== null && !near(s, STD.subhead.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "小标题字号改为三号");
+      } else { passCount++; }
+    }
+    else if (cls === "sign") {
+      if (!fontMatch(f, STD.sign.font)) {
+        pushIssue(issues, pos, quote, "字体", "仿宋", f ? f : "未设置字体", "落款改为仿宋");
+      } else if (s !== null && !near(s, STD.sign.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "落款字号改为三号");
+      } else { passCount++; }
+    }
+    else if (cls === "table") {
+      /* 表格内文字：字体/字号逐 run 检测必须仿宋 16pt（三号）；行距不强制固定 28 磅，未设置的仅作黄色提示，不算错误 */
+      var badRun = null;
+      for (var ri = 0; ri < p.runs.length; ri++) {
+        var rr = p.runs[ri];
+        if (rr.t && rr.f && !fontMatch(rr.f, "仿宋")) { badRun = rr; break; }
+      }
+      if (badRun) {
+        pushIssue(issues, pos, quote, "字体", "仿宋", badRun.f ? badRun.f : "未设置字体", "表格内文字用仿宋 16pt（三号），已标黑体的文字改回仿宋");
+      } else if (p.fmt.size !== null && !near(p.fmt.size, STD.body.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(p.fmt.size), "表格内文字字号改为三号");
+      } else { passCount++; }
+      /* 表格内行距：不必设置，未用固定值 28 磅仅黄色提醒 */
+      if (p.lineTw === null || p.lineRule === "auto" ||
+          (STD.body.lineRule.indexOf(p.lineRule) < 0) ||
+          !near(p.lineTw, STD.body.lineTw, 20)) {
+        hints.push({
+          pos: pos, quote: quote, cat: "行距",
+          expect: "固定值 28 磅",
+          actual: line2cn(p.lineTw, p.lineRule),
+          fix: "表格内文字行距建议设为固定值 28 磅（不强制，可忽略）"
+        });
+      } else { passCount++; }
+    }
+    else if (cls === "body") {
+      if (!fontMatch(f, STD.body.font)) {
+        pushIssue(issues, pos, quote, "字体", "仿宋", f ? f : "未设置字体", "正文改为仿宋");
+      } else if (s !== null && !near(s, STD.body.size, 0.5)) {
+        pushIssue(issues, pos, quote, "字号", "三号", pt2cn(s), "正文字号改为三号");
+      } else { passCount++; }
+      if (p.lineTw === null || p.lineRule === "auto" ||
+          (STD.body.lineRule.indexOf(p.lineRule) < 0) ||
+          !near(p.lineTw, STD.body.lineTw, 20)) {
+        pushIssue(issues, pos, quote, "行距", "固定值 28 磅",
+          line2cn(p.lineTw, p.lineRule),
+          "行距设为固定值 28 磅");
+      } else { passCount++; }
+      /* 正文缩进：模板正文存在无缩进段落（允许），但缩进宽度不符（4/8 字符等）必须报出 */
+      var indR = checkIndent(p, pos, quote, issues, hints, "正文首行缩进 2 字符", true);
+      if (indR === "pass") passCount++;
+    }
+  }
+  return { issues: issues, hints: hints, passCount: passCount, paraCount: seq, fileNameCheck: fileNameCheck };
+}
+
+/* ============================================================
+ * 结果渲染
+ * ============================================================ */
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function renderResult(result) {
+  var card = document.getElementById("resultCard");
+  var listEl = document.getElementById("issueList");
+  var summaryOk = document.getElementById("summaryOk");
+  document.getElementById("statErr").textContent = result.issues.length;
+  document.getElementById("statPass").textContent = result.passCount;
+  document.getElementById("statHint").textContent = result.hints.length;
+  document.getElementById("statPara").textContent = result.paraCount;
+  listEl.innerHTML = "";
+
+  /* 文件名与主标题一致性（独立项，不计入格式错误） */
+  var fileCheckEl = document.getElementById("fileCheck");
+  if (result.fileNameCheck) {
+    var fc = result.fileNameCheck;
+    if (fc.ok) {
+      fileCheckEl.innerHTML =
+        '<div class="file-check-row ok">' +
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' +
+          '<div class="fc-body"><b>文件名与主标题一致</b><div class="fc-detail">文件名：「' + esc(fc.fileName) + '」＝主标题：「' + esc(fc.title) + '」</div></div>' +
+        '</div>';
+    } else {
+      fileCheckEl.innerHTML =
+        '<div class="file-check-row warn">' +
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>' +
+          '<div class="fc-body"><b>文件名与主标题不一致</b>' +
+            '<div class="fc-detail">文件名：「' + esc(fc.fileName) + '」</div>' +
+            '<div class="fc-detail">主标题：「' + esc(fc.title) + '」</div>' +
+            '<div class="fc-fix">建议：' + esc(fc.fix) + '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    fileCheckEl.style.display = "block";
+  } else {
+    fileCheckEl.style.display = "none";
+  }
+
+  /* 手动缩进提示区（黄色） */
+  var hintList = document.getElementById("hintList");
+  hintList.innerHTML =
+    '<div class="hint-head">' +
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/>' +
+      '</svg>' +
+      '以下段落缩进为手动空格实现，视觉上符合 2 字符缩进，建议改为段落格式缩进' +
+    '</div>';
+  if (result.hints.length > 0) {
+    hintList.style.display = "flex";
+    result.hints.forEach(function (iss, i) {
+      var div = document.createElement("div");
+      div.className = "issue hint";
+      div.innerHTML =
+        '<div class="idx">' + (i + 1) + '</div>' +
+        '<div class="body">' +
+          '<div class="where"><b>' + esc(iss.pos) + '</b> · ' + esc(iss.cat) + '</div>' +
+          '<div class="quote">' + esc(iss.quote) + '</div>' +
+          '<div class="kv">' +
+            '<span><span class="k">标准：</span><span class="v-expect">' + esc(iss.expect) + '</span></span>' +
+            '<span><span class="k">实际：</span><span class="v-manual">' + esc(iss.actual) + '</span></span>' +
+          '</div>' +
+          '<div class="fix">修改建议：' + esc(iss.fix) + '</div>' +
+        '</div>';
+      hintList.appendChild(div);
+    });
+  } else {
+    hintList.style.display = "none";
+  }
+
+  /* 按错误类别统计 */
+  var catChips = document.getElementById("catChips");
+  catChips.innerHTML = "";
+  if (result.issues.length > 0) {
+    var byCat = {};
+    result.issues.forEach(function (iss) { byCat[iss.cat] = (byCat[iss.cat] || 0) + 1; });
+    Object.keys(byCat).sort().forEach(function (cat) {
+      var chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = cat + " ";
+      var b = document.createElement("b");
+      b.textContent = byCat[cat];
+      chip.appendChild(b);
+      chip.appendChild(document.createTextNode(" 处"));
+      catChips.appendChild(chip);
+    });
+    catChips.style.display = "flex";
+  } else {
+    catChips.style.display = "none";
+  }
+
+  if (result.issues.length === 0) {
+    summaryOk.style.display = "flex";
+  } else {
+    summaryOk.style.display = "none";
+    result.issues.forEach(function (iss, i) {
+      var div = document.createElement("div");
+      div.className = "issue";
+      div.innerHTML =
+        '<div class="idx">' + (i + 1) + '</div>' +
+        '<div class="body">' +
+          '<div class="where"><b>' + esc(iss.pos) + '</b> · ' + esc(iss.cat) + '</div>' +
+          '<div class="quote">' + esc(iss.quote) + '</div>' +
+          '<div class="kv">' +
+            '<span><span class="k">标准：</span><span class="v-expect">' + esc(iss.expect) + '</span></span>' +
+            '<span><span class="k">实际：</span><span class="v-actual">' + esc(iss.actual) + '</span></span>' +
+          '</div>' +
+          '<div class="fix">修改建议：' + esc(iss.fix) + '</div>' +
+        '</div>';
+      listEl.appendChild(div);
+    });
+  }
+  card.style.display = "block";
+  var top = card.getBoundingClientRect().top + window.pageYOffset - 24;
+  window.scrollTo({ top: top, behavior: "smooth" });
+}
+
+/* ============================================================
+ * 主流程
+ * ============================================================ */
+async function handleFile(file) {
+  var chip = document.getElementById("fileChip");
+  var state = document.getElementById("parseState");
+  var card = document.getElementById("resultCard");
+
+  if (!file) return;
+  if (!/\.docx$/i.test(file.name)) {
+    alert("请选择 .docx 格式的 Word 文件");
+    return;
+  }
+  card.style.display = "none";
+  document.getElementById("fname").textContent = file.name;
+  document.getElementById("fsize").textContent = file.size > 1048576
+    ? (file.size / 1048576).toFixed(1) + " MB"
+    : (file.size / 1024).toFixed(0) + " KB";
+  chip.style.display = "flex";
+  state.style.display = "flex";
+  document.getElementById("parseText").textContent = "正在解析文档格式…";
+
+  try {
+    var xml = await readDocxXml(file);
+    var doc = new DOMParser().parseFromString(xml, "application/xml");
+    var paras = parseBodyParas(doc.documentElement);
+    var sectInfo = parseSectPr(doc.documentElement);
+    document.getElementById("parseText").textContent = "解析完成，共 " + paras.length + " 个段落，开始比对…";
+    await new Promise(function (r) { setTimeout(r, 60); });
+    var result = runChecks(paras, sectInfo, file.name);
+    state.style.display = "none";
+    renderResult(result);
+  } catch (err) {
+    state.style.display = "none";
+    alert("解析失败：" + err.message);
+  }
+}
+
+/* ===== 事件绑定 ===== */
+var drop = document.getElementById("drop");
+var fileInput = document.getElementById("file");
+var dragMask = document.getElementById("dragMask");
+var dragDepth = 0;
+
+drop.addEventListener("click", function () { fileInput.click(); });
+fileInput.addEventListener("change", function () { handleFile(fileInput.files[0]); });
+
+/* 上传区拖拽 */
+["dragover", "dragenter"].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("drag"); });
+});
+["dragleave", "drop"].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("drag"); });
+});
+drop.addEventListener("drop", function (e) {
+  var files = e.dataTransfer.files;
+  if (files && files.length) handleFile(files[0]);
+});
+
+/* 整页拖入：任意位置拖入 .docx 均可，阻止浏览器默认打开文件 */
+window.addEventListener("dragover", function (e) { e.preventDefault(); });
+window.addEventListener("drop", function (e) { e.preventDefault(); });
+
+window.addEventListener("dragenter", function (e) {
+  if (!e.dataTransfer || e.dataTransfer.types.indexOf("Files") < 0) return;
+  dragDepth++;
+  dragMask.style.display = "flex";
+});
+window.addEventListener("dragleave", function (e) {
+  dragDepth = Math.max(0, dragDepth - 1);
+  if (dragDepth === 0) dragMask.style.display = "none";
+});
+window.addEventListener("drop", function (e) {
+  dragDepth = 0;
+  dragMask.style.display = "none";
+  var files = e.dataTransfer.files;
+  if (files && files.length) handleFile(files[0]);
+});
+
+document.getElementById("restart").addEventListener("click", function () {
+  document.getElementById("fileChip").style.display = "none";
+  document.getElementById("resultCard").style.display = "none";
+  fileInput.value = "";
+});
+</script>
+</body>
+</html>
